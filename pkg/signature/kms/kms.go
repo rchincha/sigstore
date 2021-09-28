@@ -26,6 +26,7 @@ import (
 	"github.com/sigstore/sigstore/pkg/signature/kms/azure"
 	"github.com/sigstore/sigstore/pkg/signature/kms/gcp"
 	"github.com/sigstore/sigstore/pkg/signature/kms/hashivault"
+	"github.com/sigstore/sigstore/pkg/signature/kms/swims"
 )
 
 func init() {
@@ -40,6 +41,9 @@ func init() {
 	})
 	ProvidersMux().AddProvider(hashivault.ReferenceScheme, func(ctx context.Context, keyResourceID string, hashFunc crypto.Hash) (SignerVerifier, error) {
 		return hashivault.LoadSignerVerifier(keyResourceID, hashFunc)
+	})
+	ProvidersMux().AddProvider(swims.ReferenceScheme, func(ctx context.Context, keyResourceID string, hashFunc crypto.Hash) (SignerVerifier, error) {
+		return swims.LoadSignerVerifier(keyResourceID)
 	})
 }
 
